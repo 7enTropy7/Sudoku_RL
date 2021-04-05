@@ -18,6 +18,7 @@ class Sudoku():
         self.target = generate_puzzle('864371259325849761971265843436192587198657432257483916689734125713528694542916378')
         self.pos = [0,0]
         self.binary_map = generate_puzzle(self.get_binary_map())
+        self.reward = 0
         self.reward_dict = {
             1:-4,
             2:-3,

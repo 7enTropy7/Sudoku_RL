@@ -16,10 +16,21 @@ sudoku = generate_puzzle(puzzle)
 
 print(sudoku)
 
-print(sudoku[4][1])
-print(sudoku[4-1][1]) # Up
-print(sudoku[4+1][1]) # Down
-print(sudoku[4][1-1]) # Left
-print(sudoku[4][1+1]) # Right
+print(sudoku[2][1])
+
+def get_row_col_subgrid(x,y):
+    global sudoku
+    row = sudoku[x]
+    col = []
+    for row in sudoku:
+        col.append(row[y])
+    return row,col
+
+print(get_row_col_subgrid(2,1))
+
+# print(sudoku[4-1][1]) # Up
+# print(sudoku[4+1][1]) # Down
+# print(sudoku[4][1-1]) # Left
+# print(sudoku[4][1+1]) # Right
 
 # solved = '864371259325849761971265843436192587198657432257483916689734125713528694542916378'
