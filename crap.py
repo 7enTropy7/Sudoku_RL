@@ -15,16 +15,25 @@ def generate_puzzle(string):
 sudoku = generate_puzzle(puzzle)
 
 print(sudoku)
-#print(sudoku[2][1])
+# print(sudoku[5][5])
 
 def get_row_col_subgrid(x,y,sudoku):
     col = []
     for row in sudoku:
         col.append(row[y])
     
-    
-    return sudoku[x].tolist(),col
+    subx = x//3
+    suby = y//3
 
+    subgrid = []
+    startx, starty = subx*3,suby*3
+    for i in range(3):
+        for j in range(3):
+            subgrid.append(sudoku[startx+i][starty+j])
+        
+    return sudoku[x].tolist(),col,subgrid
+
+print(get_row_col_subgrid(1,1,sudoku))
 
 # print(sudoku[4-1][1]) # Up
 # print(sudoku[4+1][1]) # Down
