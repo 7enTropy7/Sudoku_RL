@@ -15,18 +15,16 @@ def generate_puzzle(string):
 sudoku = generate_puzzle(puzzle)
 
 print(sudoku)
+#print(sudoku[2][1])
 
-print(sudoku[2][1])
-
-def get_row_col_subgrid(x,y):
-    global sudoku
-    row = sudoku[x]
+def get_row_col_subgrid(x,y,sudoku):
     col = []
     for row in sudoku:
         col.append(row[y])
-    return row,col
+    
+    
+    return sudoku[x].tolist(),col
 
-print(get_row_col_subgrid(2,1))
 
 # print(sudoku[4-1][1]) # Up
 # print(sudoku[4+1][1]) # Down
