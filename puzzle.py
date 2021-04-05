@@ -59,7 +59,10 @@ class Sudoku():
 
 
     def step(self,action):
-        if self.sudoku != self.target:
+        if (self.sudoku == self.target).all():
+            self.done = True
+            self.reward += 10
+        else:
             if action == 0:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
                     self.sudoku[self.pos[0]][self.pos[1]] = 1
@@ -246,10 +249,7 @@ class Sudoku():
                 else:
                     # calculate punishment
                     self.reward -= 1
-        else:
-            self.done = True
-            self.reward += 10
-
+            
         return self.pos,self.reward,self.done    
 
     def render(self):

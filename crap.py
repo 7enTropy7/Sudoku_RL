@@ -2,6 +2,7 @@ import numpy as np
 
 puzzle = '004300209005009001070060043006002087190007400050083000600000105003508690042910300'
 
+solved = '864371259325849761971265843436192587198657432257483916689734125713528694542916378'
 
 def generate_puzzle(string):
     list1=[]
@@ -13,8 +14,9 @@ def generate_puzzle(string):
     return list1
 
 sudoku = generate_puzzle(puzzle)
+target = generate_puzzle(solved)
 
-print(sudoku)
+# print(sudoku)
 # print(sudoku[5][5])
 
 def get_row_col_subgrid(x,y,sudoku):
@@ -35,11 +37,14 @@ def get_row_col_subgrid(x,y,sudoku):
         
     return row,col,subgrid
 
-print(get_row_col_subgrid(5,5,sudoku))
+# print(get_row_col_subgrid(5,5,sudoku))
 
-# print(sudoku[4-1][1]) # Up
-# print(sudoku[4+1][1]) # Down
-# print(sudoku[4][1-1]) # Left
-# print(sudoku[4][1+1]) # Right
+print(target)
+print('------------------------')
+print(sudoku)
 
-# solved = '864371259325849761971265843436192587198657432257483916689734125713528694542916378'
+if (sudoku == target).all():
+    print('Oui')
+else:
+    print('No')
+
