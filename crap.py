@@ -22,6 +22,8 @@ def get_row_col_subgrid(x,y,sudoku):
     for row in sudoku:
         col.append(row[y])
     
+    row = sudoku[x].tolist()
+
     subx = x//3
     suby = y//3
 
@@ -31,9 +33,9 @@ def get_row_col_subgrid(x,y,sudoku):
         for j in range(3):
             subgrid.append(sudoku[startx+i][starty+j])
         
-    return sudoku[x].tolist(),col,subgrid
+    return row,col,subgrid
 
-print(get_row_col_subgrid(1,1,sudoku))
+print(get_row_col_subgrid(5,5,sudoku))
 
 # print(sudoku[4-1][1]) # Up
 # print(sudoku[4+1][1]) # Down
