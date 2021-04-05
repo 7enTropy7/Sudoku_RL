@@ -39,8 +39,8 @@ def get_row_col_subgrid(x,y,sudoku):
 
 # print(get_row_col_subgrid(5,5,sudoku))
 
-print(target)
-print('------------------------')
+# print(target)
+# print('------------------------')
 print(sudoku)
 
 if (sudoku == target).all():

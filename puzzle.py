@@ -82,75 +82,102 @@ class Sudoku():
         else:
             if action == 0:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
-                    self.sudoku[self.pos[0]][self.pos[1]] = 1
-                    # Checking for occurence in row,col,subgrid
-                    temp = get_row_col_subgrid(self.pos[0],self.pos[1],1,self.sudoku)
-                    # Positive Reward for single occurence
-                    self.reward = temp
+                    if self.sudoku[self.pos[0]][self.pos[1]] != 1:
+                        self.sudoku[self.pos[0]][self.pos[1]] = 1
+                        # Checking for occurence in row,col,subgrid
+                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],1,self.sudoku)
+                        # Positive Reward for single occurence
+                        self.reward = temp
+                    else:
+                        self.reward = -0.3
 
             elif action == 1:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
-                    self.sudoku[self.pos[0]][self.pos[1]] = 2
-                    # Checking for occurence in row,col,subgrid
-                    temp = get_row_col_subgrid(self.pos[0],self.pos[1],2,self.sudoku)
-                    # Positive Reward for single occurence
-                    self.reward = temp
+                    if self.sudoku[self.pos[0]][self.pos[1]] != 2:
+                        self.sudoku[self.pos[0]][self.pos[1]] = 2
+                        # Checking for occurence in row,col,subgrid
+                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],2,self.sudoku)
+                        # Positive Reward for single occurence
+                        self.reward = temp
+                    else:
+                        self.reward = -0.3
 
             elif action == 2:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
-                    self.sudoku[self.pos[0]][self.pos[1]] = 3
-                    # Checking for occurence in row,col,subgrid
-                    temp = get_row_col_subgrid(self.pos[0],self.pos[1],3,self.sudoku)
-                    # Positive Reward for single occurence
-                    self.reward = temp
+                    if self.sudoku[self.pos[0]][self.pos[1]] != 3:
+                        self.sudoku[self.pos[0]][self.pos[1]] = 3
+                        # Checking for occurence in row,col,subgrid
+                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],3,self.sudoku)
+                        # Positive Reward for single occurence
+                        self.reward = temp
+                    else:
+                        self.reward = -0.3
 
             elif action == 3:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
-                    self.sudoku[self.pos[0]][self.pos[1]] = 4
-                    # Checking for occurence in row,col,subgrid
-                    temp = get_row_col_subgrid(self.pos[0],self.pos[1],4,self.sudoku)
-                    # Positive Reward for single occurence
-                    self.reward = temp
+                    if self.sudoku[self.pos[0]][self.pos[1]] != 4:
+                        self.sudoku[self.pos[0]][self.pos[1]] = 4
+                        # Checking for occurence in row,col,subgrid
+                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],4,self.sudoku)
+                        # Positive Reward for single occurence
+                        self.reward = temp
+                    else:
+                        self.reward = -0.3
 
             elif action == 4:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
-                    self.sudoku[self.pos[0]][self.pos[1]] = 5
-                    # Checking for occurence in row,col,subgrid
-                    temp = get_row_col_subgrid(self.pos[0],self.pos[1],5,self.sudoku)
-                    # Positive Reward for single occurence
-                    self.reward = temp
+                    if self.sudoku[self.pos[0]][self.pos[1]] != 5:
+                        self.sudoku[self.pos[0]][self.pos[1]] = 5
+                        # Checking for occurence in row,col,subgrid
+                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],5,self.sudoku)
+                        # Positive Reward for single occurence
+                        self.reward = temp
+                    else:
+                        self.reward = -0.3
 
             elif action == 5:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
-                    self.sudoku[self.pos[0]][self.pos[1]] = 6
-                    # Checking for occurence in row,col,subgrid
-                    temp = get_row_col_subgrid(self.pos[0],self.pos[1],6,self.sudoku)
-                    # Positive Reward for single occurence
-                    self.reward = temp
+                    if self.sudoku[self.pos[0]][self.pos[1]] != 6:
+                        self.sudoku[self.pos[0]][self.pos[1]] = 6
+                        # Checking for occurence in row,col,subgrid
+                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],6,self.sudoku)
+                        # Positive Reward for single occurence
+                        self.reward = temp
+                    else:
+                        self.reward = -0.3
 
             elif action == 6:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
-                    self.sudoku[self.pos[0]][self.pos[1]] = 7
-                    # Checking for occurence in row,col,subgrid
-                    temp = get_row_col_subgrid(self.pos[0],self.pos[1],7,self.sudoku)
-                    # Positive Reward for single occurence
-                    self.reward = temp
+                    if self.sudoku[self.pos[0]][self.pos[1]] != 7:
+                        self.sudoku[self.pos[0]][self.pos[1]] = 7
+                        # Checking for occurence in row,col,subgrid
+                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],7,self.sudoku)
+                        # Positive Reward for single occurence
+                        self.reward = temp
+                    else:
+                        self.reward = -0.3
 
             elif action == 7:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
-                    self.sudoku[self.pos[0]][self.pos[1]] = 8
-                    # Checking for occurence in row,col,subgrid
-                    temp = get_row_col_subgrid(self.pos[0],self.pos[1],8,self.sudoku)
-                    # Positive Reward for single occurence
-                    self.reward = temp
+                    if self.sudoku[self.pos[0]][self.pos[1]] != 8:
+                        self.sudoku[self.pos[0]][self.pos[1]] = 8
+                        # Checking for occurence in row,col,subgrid
+                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],8,self.sudoku)
+                        # Positive Reward for single occurence
+                        self.reward = temp
+                    else:
+                        self.reward = -0.3
 
             elif action == 8:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
-                    self.sudoku[self.pos[0]][self.pos[1]] = 9
-                    # Checking for occurence in row,col,subgrid
-                    temp = get_row_col_subgrid(self.pos[0],self.pos[1],9,self.sudoku)
-                    # Positive Reward for single occurence
-                    self.reward = temp
+                    if self.sudoku[self.pos[0]][self.pos[1]] != 9:
+                        self.sudoku[self.pos[0]][self.pos[1]] = 9
+                        # Checking for occurence in row,col,subgrid
+                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],9,self.sudoku)
+                        # Positive Reward for single occurence
+                        self.reward = temp
+                    else:
+                        self.reward = -0.3
 
             elif action == 9: # Up
                 if self.pos[0] == 0:
