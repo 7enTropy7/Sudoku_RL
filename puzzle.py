@@ -33,26 +33,38 @@ def get_row_col_subgrid(x,y,val,sudoku):
     occ_subgrid = subgrid.count(val) - 1
 
     temp = 0
+    duplicate_reset = False
+
     if occ_row == 0:
         temp += 1
-    else:
-        temp -= occ_row
     if occ_col == 0:
         temp += 1
-    else:
-        temp -= occ_col
     if occ_subgrid == 0:
         temp += 1
-    else:
-        temp -= occ_subgrid
+    if occ_row > 0 or occ_col > 0 or occ_subgrid > 0:
+        duplicate_reset = True
 
-    return temp
+    # if occ_row == 0:
+    #     temp += 1
+    # else:
+    #     temp -= occ_row
+    # if occ_col == 0:
+    #     temp += 1
+    # else:
+    #     temp -= occ_col
+    # if occ_subgrid == 0:
+    #     temp += 1
+    # else:
+    #     temp -= occ_subgrid
+
+    return temp, duplicate_reset
 
 
 class Sudoku():
     def __init__(self):
         self.puzzle = '004300209005009001070060043006002087190007400050083000600000105003508690042910300'
         self.sudoku = generate_puzzle(self.puzzle)
+        # self.original_problem = generate_puzzle(self.puzzle)
         self.target = generate_puzzle('864371259325849761971265843436192587198657432257483916689734125713528694542916378')
         self.pos = [0,0]
         self.binary_map = generate_puzzle(self.get_binary_map())
@@ -70,7 +82,9 @@ class Sudoku():
         return binary_map
 
     def reset(self):
-        self.pos = [0,0]
+        self.pos = [random.choice(range(9)),random.choice(range(9))]
+        self.sudoku = generate_puzzle(self.puzzle)
+        print('-----------------RESET---------------------')
         return self.pos
 
 
@@ -85,110 +99,165 @@ class Sudoku():
                     if self.sudoku[self.pos[0]][self.pos[1]] != 1:
                         self.sudoku[self.pos[0]][self.pos[1]] = 1
                         # Checking for occurence in row,col,subgrid
-                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],1,self.sudoku)
+                        temp,duplicate_reset = get_row_col_subgrid(self.pos[0],self.pos[1],1,self.sudoku)
                         # Positive Reward for single occurence
-                        self.reward = temp
+                        if not duplicate_reset:
+                            self.reward = temp
+                        else:
+                            self.reward = -3
+                            self.reset()
                     else:
                         self.reward = -0.3
+                else:
+                    self.reward = -1
 
             elif action == 1:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
                     if self.sudoku[self.pos[0]][self.pos[1]] != 2:
                         self.sudoku[self.pos[0]][self.pos[1]] = 2
                         # Checking for occurence in row,col,subgrid
-                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],2,self.sudoku)
+                        temp, duplicate_reset = get_row_col_subgrid(self.pos[0],self.pos[1],2,self.sudoku)
                         # Positive Reward for single occurence
-                        self.reward = temp
+                        if not duplicate_reset:
+                            self.reward = temp
+                        else:
+                            self.reward = -3
+                            self.reset()
                     else:
                         self.reward = -0.3
+                else:
+                    self.reward = -1
 
             elif action == 2:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
                     if self.sudoku[self.pos[0]][self.pos[1]] != 3:
                         self.sudoku[self.pos[0]][self.pos[1]] = 3
                         # Checking for occurence in row,col,subgrid
-                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],3,self.sudoku)
+                        temp,duplicate_reset = get_row_col_subgrid(self.pos[0],self.pos[1],3,self.sudoku)
                         # Positive Reward for single occurence
-                        self.reward = temp
+                        if not duplicate_reset:
+                            self.reward = temp
+                        else:
+                            self.reward = -3
+                            self.reset()
                     else:
                         self.reward = -0.3
+                else:
+                    self.reward = -1
 
             elif action == 3:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
                     if self.sudoku[self.pos[0]][self.pos[1]] != 4:
                         self.sudoku[self.pos[0]][self.pos[1]] = 4
                         # Checking for occurence in row,col,subgrid
-                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],4,self.sudoku)
+                        temp,duplicate_reset = get_row_col_subgrid(self.pos[0],self.pos[1],4,self.sudoku)
                         # Positive Reward for single occurence
-                        self.reward = temp
+                        if not duplicate_reset:
+                            self.reward = temp
+                        else:
+                            self.reward = -3
+                            self.reset()
                     else:
                         self.reward = -0.3
+                else:
+                    self.reward = -1
 
             elif action == 4:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
                     if self.sudoku[self.pos[0]][self.pos[1]] != 5:
                         self.sudoku[self.pos[0]][self.pos[1]] = 5
                         # Checking for occurence in row,col,subgrid
-                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],5,self.sudoku)
+                        temp,duplicate_reset = get_row_col_subgrid(self.pos[0],self.pos[1],5,self.sudoku)
                         # Positive Reward for single occurence
-                        self.reward = temp
+                        if not duplicate_reset:
+                            self.reward = temp
+                        else:
+                            self.reward = -3
+                            self.reset()
                     else:
                         self.reward = -0.3
+                else:
+                    self.reward = -1
 
             elif action == 5:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
                     if self.sudoku[self.pos[0]][self.pos[1]] != 6:
                         self.sudoku[self.pos[0]][self.pos[1]] = 6
                         # Checking for occurence in row,col,subgrid
-                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],6,self.sudoku)
+                        temp,duplicate_reset = get_row_col_subgrid(self.pos[0],self.pos[1],6,self.sudoku)
                         # Positive Reward for single occurence
-                        self.reward = temp
+                        if not duplicate_reset:
+                            self.reward = temp
+                        else:
+                            self.reward = -3
+                            self.reset()
                     else:
                         self.reward = -0.3
+                else:
+                    self.reward = -1
 
             elif action == 6:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
                     if self.sudoku[self.pos[0]][self.pos[1]] != 7:
                         self.sudoku[self.pos[0]][self.pos[1]] = 7
                         # Checking for occurence in row,col,subgrid
-                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],7,self.sudoku)
+                        temp,duplicate_reset = get_row_col_subgrid(self.pos[0],self.pos[1],7,self.sudoku)
                         # Positive Reward for single occurence
-                        self.reward = temp
+                        if not duplicate_reset:
+                            self.reward = temp
+                        else:
+                            self.reward = -3
+                            self.reset()
                     else:
                         self.reward = -0.3
+                else:
+                    self.reward = -1
 
             elif action == 7:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
                     if self.sudoku[self.pos[0]][self.pos[1]] != 8:
                         self.sudoku[self.pos[0]][self.pos[1]] = 8
                         # Checking for occurence in row,col,subgrid
-                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],8,self.sudoku)
+                        temp,duplicate_reset = get_row_col_subgrid(self.pos[0],self.pos[1],8,self.sudoku)
                         # Positive Reward for single occurence
-                        self.reward = temp
+                        if not duplicate_reset:
+                            self.reward = temp
+                        else:
+                            self.reward = -3
+                            self.reset()
                     else:
                         self.reward = -0.3
+                else:
+                    self.reward = -1
 
             elif action == 8:
                 if self.binary_map[self.pos[0]][self.pos[1]] == 0:
                     if self.sudoku[self.pos[0]][self.pos[1]] != 9:
                         self.sudoku[self.pos[0]][self.pos[1]] = 9
                         # Checking for occurence in row,col,subgrid
-                        temp = get_row_col_subgrid(self.pos[0],self.pos[1],9,self.sudoku)
+                        temp,duplicate_reset = get_row_col_subgrid(self.pos[0],self.pos[1],9,self.sudoku)
                         # Positive Reward for single occurence
-                        self.reward = temp
+                        if not duplicate_reset:
+                            self.reward = temp
+                        else:
+                            self.reward = -3
+                            self.reset()
                     else:
                         self.reward = -0.3
-
+                else:
+                    self.reward = -1
+                    
             elif action == 9: # Up
                 if self.pos[0] == 0:
                     self.pos[0] = 8
                 else:
                     self.pos[0] -= 1
 
-                if self.binary_map[self.pos[0]][self.pos[1]] == 0:
+                if self.binary_map[self.pos[0]][self.pos[1]] == 1:
                     # calculate reward based on binary map
-                    self.reward = 0.5
-                else:
+                    # if self.sudoku[self.pos[0]][self.pos[1]] == 0:
+                    #     self.reward = 0.2
+                    
                     # calculate punishment
                     self.reward = -1
                     
@@ -198,10 +267,11 @@ class Sudoku():
                 else:
                     self.pos[0] += 1
 
-                if self.binary_map[self.pos[0]][self.pos[1]] == 0:
+                if self.binary_map[self.pos[0]][self.pos[1]] == 1:
                     # calculate reward based on binary map
-                    self.reward = 0.5
-                else:
+                    # if self.sudoku[self.pos[0]][self.pos[1]] == 0:
+                    #     self.reward = 0.2
+                    
                     # calculate punishment
                     self.reward = -1
                 
@@ -211,10 +281,11 @@ class Sudoku():
                 else:
                     self.pos[1] -= 1
 
-                if self.binary_map[self.pos[0]][self.pos[1]] == 0:
+                if self.binary_map[self.pos[0]][self.pos[1]] == 1:
                     # calculate reward based on binary map
-                    self.reward = 0.5
-                else:
+                    # if self.sudoku[self.pos[0]][self.pos[1]] == 0:
+                    #     self.reward = 0.2
+                    
                     # calculate punishment
                     self.reward = -1
             
@@ -224,13 +295,20 @@ class Sudoku():
                 else:
                     self.pos[1] += 1
 
-                if self.binary_map[self.pos[0]][self.pos[1]] == 0:
+                if self.binary_map[self.pos[0]][self.pos[1]] == 1:
                     # calculate reward based on binary map
-                    self.reward = 0.5
-                else:
+                    # if self.sudoku[self.pos[0]][self.pos[1]] == 0:
+                    #     self.reward = 0.2
+                    
                     # calculate punishment
                     self.reward = -1
             
+            num_0 = 0
+            for r in self.sudoku:
+                num_0 += r.tolist().count(0)
+
+            print('Percentage Filled : ',100*(81-num_0)/81)
+
         return self.pos,self.reward,self.done    
 
     def render(self):
