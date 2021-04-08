@@ -25,7 +25,7 @@ def translate(value, leftMin, leftMax, rightMin, rightMax):
 
 class Agent:
     def __init__(self, input_dims, alpha=0.001, beta=0.002, env=None,
-            gamma=0.99, n_actions=2, max_size=1000000, tau=0.005, 
+            gamma=0.99, n_actions=3, max_size=1000000, tau=0.005, 
             fc1=400, fc2=300, batch_size=64, noise=0.1):
         self.gamma = gamma
         self.tau = tau
@@ -33,8 +33,8 @@ class Agent:
         self.batch_size = batch_size
         self.n_actions = n_actions
         self.noise = noise
-        self.max_action = 1
-        self.min_action = -1
+        self.max_action = 1.4
+        self.min_action = -1.4
         
         self.actor = ActorNetwork(n_actions=n_actions, name='actor')
         self.critic = CriticNetwork(name='critic')
@@ -92,7 +92,7 @@ class Agent:
         actions = tf.clip_by_value(actions, self.min_action, self.max_action)
         acts = []
         for i in actions[0]:
-            acts.append(int(translate(i,-1,1,0,8)))
+            acts.append(int(translate(i,self.min_action,self.max_action,0,8)))
         acts = np.array(acts)
         return acts
 

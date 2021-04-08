@@ -22,10 +22,12 @@ if __name__ == '__main__':
             env.render()
             action = agent.choose_action(observation, evaluate)
             observation_, reward, done = env.step(action)
+            print('Action : ',action)
+            print('Reward ', reward)
             agent.remember(observation, action, reward, observation_, done)
             agent.learn()
             observation = observation_
-            print('Reward ', reward)
+            
 
         
 
