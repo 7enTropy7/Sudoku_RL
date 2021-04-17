@@ -12,56 +12,66 @@ def generate_puzzle(string):
     list1 = np.reshape(list1,(9,9))
     return list1
 
-def num_duplicates(l):
-    c = 0
-    nd = 0
-    temp = [0,0,0,0,0,0,0,0,0]
-    for i in l:
-        if i!=0:
-            temp[i-1] += 1
-    for t in temp:
-        if t > 1:
-            c += t-1
-        if t == 1:
-            nd += 1
-    return c, nd
 
-def get_row_col_subgrid(abs_r,abs_c,sudoku):
-    row = sudoku[abs_r].tolist()
+def get_subgrids(sudoku):
+    subgrids = []
+    for subx in range(3):
+        for suby in range(3):
+            startx, starty = subx*3,suby*3
+            subgrid = []
+            for i in range(3):
+                for j in range(3):
+                    subgrid.append(sudoku[startx+i][starty+j])
+            subgrids.append(subgrid)
+    return subgrids 
 
-    col = []
-    for row in sudoku:
-        col.append(row[abs_c])
+def return_initialized_puzzle(sudoku):
+    subgrids = get_subgrids(sudoku)
+    t = [9,8,7,6,5,4,3,2,1]
+    for subgrid in subgrids:
+        temp = []
+        output_grid = []
+        for i in range(len(subgrid)):
+            if subgrid[i] != 0:
+                temp.append(subgrid[i])
+        for i in t:
+            if i not in temp:
+                output_grid.append(i)
+        for i in range(len(subgrid)):
+            if subgrid[i] == 0:
+                subgrid[i] = output_grid.pop()
+    return subgrids 
 
-    startx, starty = (abs_r//3)*3, (abs_c//3)*3
-    subgrid = []
-    for i in range(3):
-        for j in range(3):
-            subgrid.append(sudoku[startx+i][starty+j])
-
-    dup_row,non_dup_row = num_duplicates(row)
-    dup_col,non_dup_col = num_duplicates(col)
-    dup_subgrid,non_dup_subgrid = num_duplicates(subgrid)
-
-    dups = dup_row + dup_col + dup_subgrid
-    non_dups = non_dup_row + non_dup_col + non_dup_subgrid
-
-    punisher_factor = -1
-    reward_factor = 0.3
-    # print('Overall Reward Checking',punisher_factor * dups)
-    return punisher_factor * dups + reward_factor * non_dups
-
+def subgrids_to_sudoku(subgrids):
+    sudoku = [[0,0,0,0,0,0,0,0,0]]*9
+    sudoku = np.array(sudoku)
+    sudoku = np.reshape(sudoku,(9,9))
+    for list_id in range(len(subgrids)):
+        start_row = (list_id//3)*3
+        start_col = (list_id%3)*3
+        subgrid = subgrids[list_id]
+        subgrid.reverse()
+        for i in range(3):
+            for j in range(3):
+                sudoku[start_row+i][start_col+j] = subgrid.pop()
+    
+    return sudoku
 
 class Sudoku():
     def __init__(self):
-        self.puzzle = '004300209005009001070060043006002087190007400050083000600000105003508690042910300'
-        self.sudoku = generate_puzzle(self.puzzle)
+        # self.puzzle = '920870060080020390007903010340059780700104002019280604004065809035090100006402070'
         # self.original_problem = generate_puzzle(self.puzzle)
+
+        self.puzzle = '004300209005009001070060043006002087190007400050083000600000105003508690042910300'
         self.target = generate_puzzle('864371259325849761971265843436192587198657432257483916689734125713528694542916378')
+
+        self.empty_sudoku = generate_puzzle(self.puzzle)
+        self.subgrids = return_initialized_puzzle(self.empty_sudoku)
+        self.sudoku = subgrids_to_sudoku(self.subgrids)
+
         self.binary_map = generate_puzzle(self.get_binary_map())
         
-        self.reward = 0
-        self.done = False
+        self.last_action = [0]*9
 
     def get_binary_map(self):
         binary_map = ''
@@ -73,25 +83,40 @@ class Sudoku():
         return binary_map
 
     def reset(self):
-        self.sudoku = generate_puzzle(self.puzzle)
+        self.last_action = [0]*9
+        self.empty_sudoku = generate_puzzle(self.puzzle)
+        self.subgrids = return_initialized_puzzle(self.empty_sudoku)
+        self.sudoku = subgrids_to_sudoku(self.subgrids)
+
+    def get_subgrid_state(self,genome_id):
+        subgrids = get_subgrids(self.sudoku)
+        return subgrids[genome_id]
 
 
-    def step(self,action,id,counter):
-        if counter == 8:
-            self.done = True
+    def step(self,current_action,genome_id):
 
-        location = counter
-        value = action
-        row = (id//3)*3
-        col = (id%3)*3
-        abs_r = row + location//3
-        abs_c = col + location%3
-        if self.binary_map[abs_r][abs_c] != 1:
-            self.sudoku[abs_r][abs_c] = value
-            self.reward = get_row_col_subgrid(abs_r,abs_c,self.sudoku)
+        last_action = self.last_action[genome_id]
 
-        return self.reward, self.done
+        subgrids = get_subgrids(self.sudoku)
+        subgrid = subgrids[genome_id]
+        
+        row = (genome_id//3)*3
+        col = (genome_id%3)*3
+        abs_r_0 = row + last_action//3
+        abs_c_0 = col + last_action%3
 
+        abs_r_1 = row + current_action//3
+        abs_c_1 = col + current_action%3
+
+        if self.binary_map[abs_r_0][abs_c_0] != 1 and self.binary_map[abs_r_1][abs_c_1] != 1:
+            temp = subgrid[last_action]
+            subgrid[last_action] = subgrid[current_action]
+            subgrid[current_action] = temp
+
+            subgrids[genome_id] = subgrid
+            self.sudoku = subgrids_to_sudoku(subgrids)
+        
+        self.last_action[genome_id] = current_action
         
     def render(self):
         # clearscreen = lambda: os.system('clear')

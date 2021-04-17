@@ -21,11 +21,12 @@ def generate_puzzle(string):
     list1 = np.reshape(list1,(9,9))
     return list1
 
-# puzzle = '004300209005009001070060043006002087190007400050083000600000105003508690042910300'
-# sudoku = generate_puzzle(puzzle)
-# print(sudoku)
+puzzle = '920870060080020390007903010340059780700104002019280604004065809035090100006402070'
+        
+sudoku = generate_puzzle(puzzle)
+print(sudoku)
 # print(get_subgrids(sudoku)) 
-# 
+
 
 l = [0,0,1,2,3,3,3,4,4]
 def num_duplicates(l):
@@ -41,6 +42,43 @@ def num_duplicates(l):
         if t == 1:
             nd += 1
     return c, nd
+# print(num_duplicates(l))
 
 
-print(num_duplicates(l))
+def return_initialized_puzzle(sudoku):
+    subgrids = get_subgrids(sudoku)
+    t = [9,8,7,6,5,4,3,2,1]
+    for subgrid in subgrids:
+        temp = []
+        output_grid = []
+        for i in range(len(subgrid)):
+            if subgrid[i] != 0:
+                temp.append(subgrid[i])
+        for i in t:
+            if i not in temp:
+                output_grid.append(i)
+        for i in range(len(subgrid)):
+            if subgrid[i] == 0:
+                subgrid[i] = output_grid.pop()
+    return subgrids    
+                
+def subgrids_to_sudoku(subgrids):
+    sudoku = [[0,0,0,0,0,0,0,0,0]]*9
+    sudoku = np.array(sudoku)
+    sudoku = np.reshape(sudoku,(9,9))
+    for list_id in range(len(subgrids)):
+        start_row = (list_id//3)*3
+        start_col = (list_id%3)*3
+        subgrid = subgrids[list_id]
+        subgrid.reverse()
+        for i in range(3):
+            for j in range(3):
+                sudoku[start_row+i][start_col+j] = subgrid.pop()
+    
+    return sudoku
+
+
+subgrids = return_initialized_puzzle(sudoku)
+print(subgrids)
+sudoku = subgrids_to_sudoku(subgrids)
+print(sudoku)

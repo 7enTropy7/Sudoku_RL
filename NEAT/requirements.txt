@@ -1,0 +1,3 @@
+numpy==1.19.5
+neat_python==0.92
+neat==0.4.1
